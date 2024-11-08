@@ -112,6 +112,25 @@ export function getParentBranch(branchName: string): Branch {
     parentBranchName = mainExists ? 'main' : 'master';
   }
 
+  const state = loadState();
+  const stateParent = state.branches[branchName]?.parent;
+
+  if (
+    parentBranchName !== 'main' &&
+    parentBranchName !== 'master' &&
+    state.branches[branchName]?.orphaned &&
+    stateParent &&
+    stateParent !== 'main' &&
+    stateParent !== 'master'
+  ) {
+    return {
+      branchName: stateParent,
+      parent: null,
+      children: [],
+      orphaned: state.branches[stateParent]?.orphaned
+    }
+  }
+
   return {
     branchName: parentBranchName,
     parent: null,

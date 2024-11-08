@@ -1,4 +1,4 @@
-import { loadState } from "../branch-state/state.js";
+import { loadState, saveState } from "../branch-state/state.js";
 import { execCommand, findChildren, type Command } from "../utils.js";
 
 export const pull: Command = {
@@ -27,6 +27,17 @@ export const pull: Command = {
 
     // Perform pull
     console.log(`Pulling updates for ${currentBranch}...`);
-    execCommand('git pull', true);
+
+    try {
+      execCommand('git pull', true);
+      state.branches[currentBranch].children.forEach(child => {
+        state.branches[child].orphaned = true;
+      });
+
+      saveState(state);
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
   }
 };

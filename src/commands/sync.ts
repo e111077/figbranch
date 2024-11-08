@@ -20,7 +20,6 @@ async function impl(): Promise<void> {
   if (confirm) {
     console.log(`Rebasing onto ${parent.branchName}...`);
     try {
-      findChildren(currentBranch);
       execCommand(`git rebase --onto ${parent.branchName} $(git rev-parse ${currentBranch}^) ${currentBranch}`, true);
     } catch (error) {
       console.error((error as Error).message);

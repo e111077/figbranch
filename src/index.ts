@@ -6,6 +6,7 @@ import { list } from './commands/list/index.js';
 import { next } from './commands/next.js';
 import { prev } from './commands/prev.js';
 import { sync } from './commands/sync.js';
+import { rebase } from './commands/rebase/index.js';
 import { pull } from './commands/pull.js';
 import { cache } from './commands/cache/index.js';
 import { amend } from './commands/amend.js';
@@ -33,6 +34,7 @@ yargs(hideBin(process.argv))
   .command(amend)
   .command(unamend)
   .command(sync)
+  .command(rebase)
   .command(pull.command, pull.description, {}, pull.impl)
   .command(cache)
   .command(configCommand)
